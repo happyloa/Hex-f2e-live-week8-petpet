@@ -19,7 +19,7 @@ const metrics = [{ value: '5278', label: '人使用 PETPET' }, { value: '580', l
 
 <style scoped>
 .stats {
-  background-image: url('/petpet/index-9.jpeg');
+  background-image: url('/petpet/index-9.webp');
   background-position: calc(50% - 28px) center;
 }
 

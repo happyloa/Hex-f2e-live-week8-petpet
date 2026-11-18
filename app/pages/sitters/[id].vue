@@ -8,7 +8,7 @@ if (!sitter.value) throw createError({ statusCode: 404, statusMessage: '找不�
 
 const isGoodHome = computed(() => sitter.value?.id === 'good-home')
 const photos = computed(() => isGoodHome.value
-  ? ['homestay-3.jpeg', 'index-5.jpeg', 'detail-1.jpeg', 'detail2.jpeg']
+  ? ['homestay-3.webp', 'index-5.webp', 'detail-1.webp', 'detail2.webp']
   : [sitter.value!.image])
 const related = computed(() => ['pet-house', 'paw-team', 'pet-and-home', 'cat-butler', 'mimi', 'cat-first']
   .filter(id => id !== sitter.value?.id)

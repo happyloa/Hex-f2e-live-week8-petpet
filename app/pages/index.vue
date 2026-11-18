@@ -1,6 +1,10 @@
 <script setup lang="ts">
 definePageMeta({ showFooter: true })
-useHead({ title: '寵物服務，盡在 PETPET', titleTemplate: '%s' })
+useHead({
+  title: '寵物服務，盡在 PETPET',
+  titleTemplate: '%s',
+  link: [{ rel: 'preload', as: 'image', href: '/petpet/hero.webp', fetchpriority: 'high' }],
+})
 const featuredCopy = '即時瞭解您的需求，安排最適合毛孩的寵物保姆！'
 </script>
 

@@ -1,31 +1,49 @@
 # PETPET 大型寵物服務網
 
-六角學院切版直播班第八週切版作業。依 Adobe XD 畫板實作首頁、服務列表、保姆詳情、三步驟預約、登入及會員頁。網站使用繁體中文，支援桌機、平板與手機。
+六角學院切版直播班第八週作業。依 Adobe XD 實作寵物服務搜尋、保姆詳情及三步驟預約，使用 Nuxt 4、Vue 3、TypeScript 和 Tailwind CSS 4。
 
-## 本機開發
+[正式網站](https://hex-petpet.piafyoyo06.workers.dev/) · [Adobe XD 設計稿](https://xd.adobe.com/view/2c355bc0-1368-4995-b20d-9882992c75b0-7966/screen/69b72d39-0e8e-4849-96a2-617108c70de1/)
 
-使用 Node.js 22.22.3／24.15.0 以上的 LTS 小版本，或 Node.js 26。
+## 快速開始
+
+建議使用 Node.js 24 LTS。其他支援版本列在 `package.json` 的 `engines`。Cloudflare Workers Builds 使用 Node.js 24。
 
 ```sh
 npm ci
 npm run dev
 ```
 
-`npm run typecheck` 檢查型別，`npm run build` 產生 Cloudflare Worker 與靜態資產。登入 Cloudflare 後可先用 `npm run preview` 驗證 Worker，並以 `npm run deploy` 部署。
+| 指令 | 用途 |
+| --- | --- |
+| `npm run typecheck` | 檢查 Vue 與 TypeScript 型別 |
+| `npm run build` | 產生 Cloudflare Worker 與靜態資產 |
+| `npm run preview` | 建置後，以 Wrangler 預覽實際 Worker |
+| `npm run deploy` | 建置後，以已登入的 Wrangler 手動部署 |
+
+GitHub `main` 已連至 Cloudflare Workers Builds。`main` 有新推送時，Cloudflare 會執行型別檢查、建置並部署 `hex-petpet`。
+
+## XD 畫板與體驗入口
+
+以 1280、768、375 px 分別對照桌機、平板、手機。28 張頁面與互動畫板有以下對應入口，另 1 張 UI Kit 的規格整理在 Tailwind 主題與共用元件中。
+
+| 畫板 | 入口 |
+| --- | --- |
+| 首頁與服務列表 | `/` 與 `/services` |
+| 毛孩好家詳情 | `/sitters/good-home` |
+| 三步驟預約與成功頁 | 在保姆詳情選「立刻預約」 |
+| 登入與會員中心 | `/login` 與 `/member` |
+| 手機主選單 | 在手機尺寸開啟頁首選單 |
+
+搜尋與篩選使用示範資料，頁數依符合條件的資料計算。登入、第三方登入按鈕、服務預約、付款及支援表單均為前端示範。請使用測試資料。預約記錄保存在當前分頁的工作階段。XD 未繪製的連結使用占位頁，入口旁有程式碼註解。
 
 ## 專案結構
 
-- `app/pages` 是頁面路由，串接各頁的版型。
-- `app/components` 是共用的導覽、卡片、預約表單及主要內容區塊。
-- `app/composables` 管理示範會員及預約狀態。
-- `app/assets/css/main.css` 在 Tailwind CSS 的 `@theme` 定義色彩、字型、斷點、間距、圓角與陰影。版面樣式依使用範圍放在元件內，按鈕和欄位共用同一組樣式。
-- `public/petpet` 放六角學院提供的課程圖檔及 XD 的插圖。
+- `app/pages` 負責路由及各頁的內容組合。
+- `app/components` 放共用導覽、服務卡片、日期欄位、表單及預約視窗。
+- `app/composables` 集中處理預約選擇、會員狀態及預約記錄。
+- `app/data/petpet.ts` 放服務、保姆及評論的示範資料。
+- `app/assets/css/main.css` 使用 Tailwind `@theme` 定義色彩、字型、斷點、間距、圓角與陰影。
+- `app/plugins` 處理瀏覽器內的示範記錄與捲動動畫。動畫尊重系統的減少動態效果設定。
+- `public/petpet` 放六角學院課程素材與 XD 插圖。照片使用 WebP，保留設計稿的原始裁切比例。
 
-日期元件使用 Vue Datepicker，由 Tailwind 主題供應配色、字型與欄位尺寸。XD 未提供畫板的連結使用預留頁面，入口旁有程式碼註解。捲動淡入會尊重系統的減少動態效果設定。
-
-搜尋與篩選使用本機示範資料。登入、預約及付款為前端操作示範。請使用測試資料。預約記錄保存在當前分頁的工作階段。
-
-## 設計與素材
-
-- [Adobe XD 設計稿](https://xd.adobe.com/view/2c355bc0-1368-4995-b20d-9882992c75b0-7966/screen/69b72d39-0e8e-4849-96a2-617108c70de1/)
-- [六角學院課程素材](https://github.com/hexschool/2022-web-layout-training/tree/main/week8-petpet)
+[六角學院課程素材](https://github.com/hexschool/2022-web-layout-training/tree/main/week8-petpet)

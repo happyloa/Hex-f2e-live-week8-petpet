@@ -1,12 +1,15 @@
 <script setup lang="ts">
 const route = useRoute()
+const mobileMenuOpen = ref(false)
 </script>
 <template>
-  <a href="#main-content" class="skip-link">跳到主要內容</a>
-  <SiteHeader />
-  <main id="main-content">
+  <a v-if="!mobileMenuOpen" href="#main-content" class="skip-link">跳到主要內容</a>
+  <SiteHeader v-model:menu-open="mobileMenuOpen" />
+  <main id="main-content" :inert="mobileMenuOpen">
     <NuxtPage />
   </main>
-  <SiteFooter v-if="route.meta.showFooter" />
+  <div v-if="route.meta.showFooter" :inert="mobileMenuOpen">
+    <SiteFooter />
+  </div>
   <BookingDialog />
 </template>

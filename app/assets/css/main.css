@@ -55,7 +55,7 @@
     background-color: var(--color-selection);
   }
   body { @apply bg-white font-sans text-ink antialiased; }
-  html:has(.booking-dialog[open]) { overflow: hidden; }
+  html:has(.booking-dialog[open], #mobile-navigation[data-open]) { overflow: hidden; }
   button { @apply cursor-pointer; }
   button:disabled { @apply cursor-default; }
   :focus-visible { @apply outline-2 outline-offset-2 outline-action; }

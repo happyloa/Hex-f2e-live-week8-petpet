@@ -1,14 +1,35 @@
 <script setup lang="ts">
 const route = useRoute()
-const menuOpen = ref(false)
+const menuOpen = defineModel<boolean>('menuOpen', { required: true })
 const { isSignedIn, profile, signOut } = useMember()
 const mobileMenu = ref<HTMLButtonElement>()
+const memberMenu = ref<HTMLDetailsElement>()
+let tabletViewport: MediaQueryList | undefined
 
-watch(() => route.fullPath, () => { menuOpen.value = false })
+function syncMobileMenu(event: MediaQueryListEvent) {
+  if (event.matches) menuOpen.value = false
+}
+
+onMounted(() => {
+  tabletViewport = window.matchMedia('(min-width: 48rem)')
+  tabletViewport.addEventListener('change', syncMobileMenu)
+})
+
+onUnmounted(() => tabletViewport?.removeEventListener('change', syncMobileMenu))
+
+watch(() => route.fullPath, () => {
+  menuOpen.value = false
+  if (memberMenu.value) memberMenu.value.open = false
+})
 
 function closeMenu() {
-  menuOpen.value = false
-  mobileMenu.value?.focus()
+  if (menuOpen.value) {
+    menuOpen.value = false
+    mobileMenu.value?.focus()
+  } else if (memberMenu.value?.open) {
+    memberMenu.value.open = false
+    memberMenu.value.querySelector('summary')?.focus()
+  }
 }
 </script>
 
@@ -21,7 +42,7 @@ function closeMenu() {
         <!-- XD 僅提供加入入口，使用預留頁面。 -->
         <NuxtLink to="/info/join" class="hover:text-action">成為寵物保姆</NuxtLink>
         <NuxtLink v-if="!isSignedIn" to="/login" class="hover:text-action">登入</NuxtLink>
-        <details v-else class="group relative">
+        <details v-else ref="memberMenu" class="group relative">
           <summary class="flex cursor-pointer list-none items-center gap-1">
             Hi, {{ profile.name }}
             <AppIcon name="down" class="size-4 group-open:rotate-180" />
@@ -41,8 +62,8 @@ function closeMenu() {
         <AppIcon :name="menuOpen ? 'close' : 'menu'" class="size-10" />
       </button>
     </div>
-    <nav v-show="menuOpen" id="mobile-navigation" aria-label="手機選單"
-      class="absolute top-full left-0 grid w-full min-h-[calc(100dvh-62px)] auto-rows-min bg-white text-center tablet:hidden">
+    <nav v-show="menuOpen" id="mobile-navigation" :data-open="menuOpen || undefined" aria-label="手機選單"
+      class="absolute top-full left-0 grid w-full h-[calc(100dvh-62px)] auto-rows-min overflow-y-auto bg-white text-center tablet:hidden">
       <NuxtLink to="/services" class="border-b border-field py-3 text-label" @click="menuOpen = false">預約服務</NuxtLink>
       <!-- XD 僅提供加入入口，使用預留頁面。 -->
       <NuxtLink to="/info/join" class="border-b border-field py-3 text-label" @click="menuOpen = false">成為寵物保姆</NuxtLink>

@@ -100,7 +100,7 @@ async function goToMember() {
           <BookingContactFields v-else-if="step === 1" v-model="contact" />
           <BookingPaymentFields v-else />
         </div>
-        <div class="booking-actions grid content-end gap-2 text-center tablet:ml-auto tablet:w-[255px] desktop:w-full">
+        <div class="booking-actions grid content-end gap-2 text-center tablet:ml-auto desktop:w-full">
           <button v-if="step > 0" type="button" class="min-h-8 text-action hover:underline" @click="goBack">返回</button>
           <button v-else type="button" class="min-h-8 text-action hover:underline tablet:hidden" @click="close">返回</button>
           <button class="button button-primary w-full text-label">{{ step === 2 ? '確認預約' : '下一步' }}</button>
@@ -123,7 +123,7 @@ async function goToMember() {
   color: var(--color-ink);
   background: transparent;
 }
-.booking-dialog[open] { display: grid; align-content: center; justify-items: center; overflow: auto; }
+.booking-dialog[open] { display: grid; align-content: safe center; justify-items: center; overflow: auto; }
 .booking-dialog::backdrop { background: linear-gradient(transparent 62px, var(--color-overlay) 62px); }
 .booking-frame { max-width: 690px; min-height: min(670px, calc(100dvh - 94px)); }
 .booking-dialog[open] .booking-frame { animation: dialog-enter 180ms ease both; }
@@ -146,11 +146,22 @@ async function goToMember() {
   .booking-frame { min-height: min(840px, calc(100dvh - 110px)); }
   .booking-form {
     grid-template-areas: 'heading' 'sitter' 'fields' 'progress' 'actions';
+    grid-template-rows: auto auto 1fr auto auto;
     gap: 18px;
     padding: 60px 60px 48px;
   }
 }
+@media (48rem <= width < 64rem) {
+  .booking-dialog[data-step='2'] .booking-sitter { display: none; }
+  .booking-dialog[data-step='2'] .booking-form {
+    grid-template-areas: 'heading' 'fields' 'progress' 'actions';
+    grid-template-rows: auto 1fr auto auto;
+  }
+  .booking-actions { grid-auto-flow: column; align-items: center; gap: 30px; margin-block-start: 14px; }
+  .booking-actions .button-primary { width: 270px; }
+}
 @media (width >= 64rem) {
+  .booking-dialog { padding-bottom: 52px; }
   .booking-dialog[data-step='0']::backdrop { background: linear-gradient(transparent 64px, #000 64px); }
   .booking-frame { max-width: 920px; min-height: min(580px, calc(100dvh - 95px)); }
   .booking-form {
@@ -160,9 +171,6 @@ async function goToMember() {
     gap: 20px 28px;
     padding: 60px 30px 48px;
   }
-}
-@media (height < 800px) {
-  .booking-dialog[open] { align-content: safe center; }
 }
 @keyframes dialog-enter {
   from { opacity: 0; transform: translateY(8px); }

@@ -2,17 +2,25 @@
 import { VueDatePicker } from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
-defineProps<{ label: string; min?: string; small?: boolean }>()
+const props = defineProps<{ label: string; min?: string; small?: boolean }>()
 const date = defineModel<string>({ required: true })
 const format = 'yyyy-MM-dd'
 const menuId = useId()
+const dateLabel = new Intl.DateTimeFormat('zh-TW', { dateStyle: 'full' })
+const ariaLabels = computed(() => ({
+  input: props.label,
+  menu: '選擇日期',
+  prevMonth: '上一個月',
+  nextMonth: '下一個月',
+  day: ({ value }: { value: Date }) => dateLabel.format(value),
+}))
 </script>
 
 <template>
   <VueDatePicker v-model="date" :model-type="format" :menu-id="menuId" :formats="{ input: format, month: 'M 月', year: 'yyyy 年' }"
     :min-date="min || undefined" :time-config="{ enableTimePicker: false }"
     :input-attrs="{ clearable: false, inputmode: 'none', hideInputIcon: true }"
-    :aria-labels="{ input: label, menu: '選擇日期', prevMonth: '上一個月', nextMonth: '下一個月' }"
+    :aria-labels="ariaLabels"
     :week-start="0" :day-names="['日', '一', '二', '三', '四', '五', '六']"
     :config="{ monthChangeOnScroll: false }"
     :placeholder="format.toUpperCase()" auto-apply arrow-navigation

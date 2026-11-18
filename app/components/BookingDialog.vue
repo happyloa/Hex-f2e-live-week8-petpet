@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { asset, services, type ServiceId } from '~/data/petpet'
+import { demoReservationDates } from '~/composables/useBooking'
+import { asset, services, type PetId, type ServiceId } from '~/data/petpet'
 
 const { selection, save, close } = useBooking()
 const { isSignedIn } = useMember()
 const dialog = ref<HTMLDialogElement>()
 const step = ref(0)
 const service = ref<ServiceId>('boarding')
-const start = ref('2020-11-20')
-const end = ref('2020-11-21')
+const start = ref(demoReservationDates.start)
+const end = ref(demoReservationDates.end)
 const count = ref(1)
-const pet = ref('cat')
+const pet = ref<PetId>('cat')
 const age = ref(1)
 const contact = ref({ petName: '', ownerName: '', email: '', phone: '' })
 const stepTitle = computed(() => ['預約項目', '預約資料', '付款資訊', '預約成功!'][step.value])
@@ -23,12 +24,12 @@ watch(selection, async (booking) => {
   }
   opener = document.activeElement instanceof HTMLElement ? document.activeElement : null
   step.value = 0
-  service.value = booking.service ?? 'boarding'
-  start.value = booking.start || '2020-11-20'
-  end.value = booking.end || '2020-11-21'
+  service.value = booking.service
+  start.value = booking.start
+  end.value = booking.end
   count.value = 1
   age.value = 1
-  pet.value = booking.pet === 'dog' ? 'dog' : 'cat'
+  pet.value = booking.pet
   contact.value = { petName: '', ownerName: '', email: '', phone: '' }
   await nextTick()
   if (!dialog.value?.open) dialog.value?.showModal()
@@ -96,13 +97,13 @@ async function goToMember() {
         </aside>
         <div class="booking-fields">
           <LazyBookingServiceFields v-if="step === 0" v-model:service="service" v-model:start="start" v-model:end="end"
-            v-model:count="count" v-model:pet="pet" v-model:age="age" :offer-training="selection.service === 'training'" />
+            v-model:count="count" v-model:pet="pet" v-model:age="age" :sitter="selection.sitter" />
           <BookingContactFields v-else-if="step === 1" v-model="contact" />
           <BookingPaymentFields v-else />
         </div>
         <div class="booking-actions grid content-end gap-2 text-center tablet:ml-auto desktop:w-full">
-          <button v-if="step > 0" type="button" class="min-h-8 text-action hover:underline" @click="goBack">返回</button>
-          <button v-else type="button" class="min-h-8 text-action hover:underline tablet:hidden" @click="close">返回</button>
+          <button v-if="step > 0" type="button" class="min-h-8 text-action-text hover:underline" @click="goBack">返回</button>
+          <button v-else type="button" class="min-h-8 text-action-text hover:underline tablet:hidden" @click="close">返回</button>
           <button class="button button-primary w-full text-label">{{ step === 2 ? '確認預約' : '下一步' }}</button>
         </div>
       </form>

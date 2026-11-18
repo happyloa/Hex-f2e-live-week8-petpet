@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { asset, serviceSummary, type Sitter } from '~/data/petpet'
-import type { ServiceId } from '~/data/petpet'
+import type { BookingOptions } from '~/composables/useBooking'
 
-const props = defineProps<{ sitter: Sitter; compact?: boolean; service?: ServiceId; start?: string; end?: string; pet?: string }>()
+const props = defineProps<{ sitter: Sitter; compact?: boolean; booking?: BookingOptions }>()
 const { open } = useBooking()
 
 function book() {
-  open(props.sitter, { service: props.service, start: props.start, end: props.end, pet: props.pet })
+  open(props.sitter, props.booking)
 }
 </script>
 

@@ -1,17 +1,20 @@
 <script setup lang="ts">
+import { demoReservationDates } from '~/composables/useBooking'
 import { asset, services, sitters } from '~/data/petpet'
 
 const route = useRoute()
 const service = computed(() => services.find(item => item.id === route.query.service) ?? services[0])
 const pet = ref(typeof route.query.pet === 'string' ? route.query.pet : 'cat')
 const city = ref(typeof route.query.city === 'string' ? route.query.city : '高雄市')
-const start = ref('2020-11-20')
-const end = ref('2020-11-21')
+const start = ref(demoReservationDates.start)
+const end = ref(demoReservationDates.end)
 const page = ref(1)
 const pageSize = 8
 const results = computed(() => sitters.filter(sitter => sitter.services.includes(service.value.id)
   && (!city.value || sitter.city === city.value)
   && (!pet.value || sitter.pets.some(type => type === pet.value))))
+const featuredResults = computed(() => results.value.filter(sitter => sitter.avatar))
+const booking = computed(() => ({ service: service.value.id, pet: pet.value, start: start.value, end: end.value }))
 const pages = computed(() => Math.ceil(results.value.length / pageSize))
 const visibleSitters = computed(() => results.value.slice((page.value - 1) * pageSize, page.value * pageSize))
 
@@ -36,11 +39,11 @@ useHead({ title: computed(() => service.value.name) })
     </div>
   </section>
   <ServiceFilters v-model:pet="pet" v-model:city="city" v-model:start="start" v-model:end="end" />
-  <FeaturedSitters :title="'本月熱門' + service.short" all-services class="mt-16 desktop:mt-section" />
+  <FeaturedSitters :title="'本月熱門' + service.short" :sitters="featuredResults" :booking="booking" all-services class="mt-16 desktop:mt-section" />
   <section aria-label="寵物保姆搜尋結果" class="site-container py-10 tablet:py-[60px] desktop:py-section">
     <ul v-if="visibleSitters.length" class="grid grid-cols-2 gap-x-4 gap-y-5 tablet:grid-cols-3 tablet:gap-x-gutter desktop:grid-cols-4 desktop:gap-y-8">
       <li v-for="sitter in visibleSitters" :key="sitter.id">
-        <SitterCard :sitter="sitter" :service="service.id" :start="start" :end="end" :pet="pet" class="h-full" />
+        <SitterCard :sitter="sitter" :booking="booking" class="h-full" />
       </li>
     </ul>
     <p v-else class="rounded-ui bg-panel px-6 py-12 text-center" role="status">目前沒有符合篩選條件的保姆，請試試其他品種或地區。</p>

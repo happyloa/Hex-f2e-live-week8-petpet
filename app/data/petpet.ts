@@ -14,9 +14,9 @@ export interface Sitter {
   id: string
   name: string
   image: string
-  services: ServiceId[]
+  services: [ServiceId, ...ServiceId[]]
   city: string
-  pets: ('cat' | 'dog')[]
+  pets: [PetId, ...PetId[]]
   avatar?: string
   reviews?: number
   orders?: number
@@ -24,6 +24,7 @@ export interface Sitter {
 
 export const cities = ['高雄市', '臺南市', '臺中市', '臺北市']
 export const petTypes = [{ id: 'cat', name: '貓' }, { id: 'dog', name: '狗' }] as const
+export type PetId = typeof petTypes[number]['id']
 
 export const featuredSitters: Sitter[] = [
   { id: 'jamie', name: 'Jamie', image: 'index-2.jpeg', avatar: 'person-1.png', services: ['boarding', 'grooming', 'training'], city: '高雄市', pets: ['cat', 'dog'], reviews: 198, orders: 580 },
@@ -44,9 +45,8 @@ export const sitters: Sitter[] = [
 ]
 
 export function serviceSummary(sitter: Sitter, compact = false) {
-  const order: ServiceId[] = ['boarding', 'grooming', 'home-care', 'walking', 'training']
-  return order.filter(id => sitter.services.includes(id))
-    .map(id => id === 'grooming' && !compact ? '美容洗澡' : services.find(service => service.id === id)!.short)
+  return services.filter(service => sitter.services.includes(service.id))
+    .map(service => service.id === 'grooming' && !compact ? '美容洗澡' : service.short)
     .join('、')
 }
 

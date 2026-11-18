@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { petTypes, services, type ServiceId } from '~/data/petpet'
+import { petTypes, services, type PetId, type ServiceId, type Sitter } from '~/data/petpet'
 
-const props = defineProps<{ offerTraining?: boolean }>()
-const options = computed(() => props.offerTraining ? [...services.slice(0, 3), services[4]] : services.slice(0, 4))
+const props = defineProps<{ sitter: Sitter }>()
+const options = computed(() => services.filter(item => item.id !== 'training' || props.sitter.services.includes('training')))
+const availablePets = computed(() => petTypes.filter(item => props.sitter.pets.includes(item.id)))
 const service = defineModel<ServiceId>('service', { required: true })
 const dateStart = defineModel<string>('start', { required: true })
 const dateEnd = defineModel<string>('end', { required: true })
 const count = defineModel<number>('count', { required: true })
-const pet = defineModel<string>('pet', { required: true })
+const pet = defineModel<PetId>('pet', { required: true })
 const age = defineModel<number>('age', { required: true })
 
 const nights = computed(() => Math.max(0, Math.round((Date.parse(dateEnd.value) - Date.parse(dateStart.value)) / 86400000)) || 0)
@@ -22,8 +23,8 @@ watch(dateStart, (start) => {
       <legend class="sr-only">預約服務</legend>
       <div class="grid grid-cols-4 gap-2 desktop:gap-3">
         <label v-for="item in options" :key="item.id"
-          class="relative flex min-h-[74px] cursor-pointer flex-col items-center justify-center rounded-ui border-2 border-transparent bg-white px-0.5 text-center text-sm text-muted shadow-card has-[:checked]:border-action has-[:checked]:text-ink has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-action tablet:min-h-[128px] tablet:text-label">
-          <input v-model="service" type="radio" name="booking-service" :value="item.id" class="peer sr-only">
+          class="relative flex min-h-[74px] cursor-pointer flex-col items-center justify-center rounded-ui border-2 border-transparent bg-white px-0.5 text-center text-sm text-muted shadow-card has-[:disabled]:cursor-not-allowed has-[:checked]:border-action has-[:checked]:text-ink has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-action tablet:min-h-[128px] tablet:text-label">
+          <input v-model="service" type="radio" name="booking-service" :value="item.id" :disabled="!sitter.services.includes(item.id)" class="peer sr-only">
           <AppIcon :name="item.icon" class="size-6 peer-checked:text-brand tablet:size-12" />
           <span class="mt-1">{{ item.short }}</span>
         </label>
@@ -48,7 +49,7 @@ watch(dateStart, (start) => {
       <label class="grid gap-1">
         您的毛孩是
         <select v-model="pet" class="field field-small px-2 tablet:w-[120px]">
-          <option v-for="item in petTypes" :key="item.id" :value="item.id">{{ item.name }}</option>
+          <option v-for="item in availablePets" :key="item.id" :value="item.id">{{ item.name }}</option>
         </select>
       </label>
       <label class="grid gap-1">

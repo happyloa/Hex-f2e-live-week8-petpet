@@ -7,10 +7,10 @@ const cards = computed(() => featuredSitters.map((_, index) => featuredSitters[(
 </script>
 
 <template>
-  <section id="featured" class="site-container scroll-mt-6">
+  <section id="featured" class="site-container scroll-mt-24">
     <h2 class="text-heading font-bold">{{ title }}</h2>
     <p v-if="subtitle" class="mt-1 text-label">{{ subtitle }}</p>
-    <div class="relative mt-3 tablet:mt-4">
+    <div v-reveal class="relative mt-3 tablet:mt-4">
       <TransitionGroup tag="div" name="sitter" class="relative grid gap-3 tablet:grid-cols-3 tablet:gap-gutter">
         <SitterFeaturedCard v-for="sitter in cards" :key="sitter.id" :sitter="sitter" :all-services="allServices" />
       </TransitionGroup>

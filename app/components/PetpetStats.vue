@@ -6,7 +6,7 @@ const metrics = [{ value: '5278', label: '人使用 PETPET' }, { value: '580', l
   <section id="about" class="stats min-h-[812px] bg-ink bg-cover bg-center text-white tablet:min-h-[584px]">
     <div class="site-container pt-[60px] tablet:pt-section">
       <h2 class="text-center text-display font-bold tablet:text-left">PETPET目前已有</h2>
-      <dl class="mt-12 ml-[26%] grid gap-y-section tablet:mt-24 tablet:ml-0 tablet:grid-cols-3 tablet:gap-x-gutter desktop:w-[75%]">
+      <dl v-reveal class="mt-12 ml-[26%] grid gap-y-section tablet:mt-24 tablet:ml-0 tablet:grid-cols-3 tablet:gap-x-gutter desktop:w-[75%]">
         <div v-for="metric in metrics" :key="metric.label"
           class="flex min-h-[120px] flex-col-reverse justify-end border-l-2 border-white pl-4 tablet:min-h-[212px]">
           <dt class="text-label">{{ metric.label }}</dt>

@@ -75,7 +75,7 @@ useHead({ title: computed(() => sitter.value?.name ?? '寵物保姆') })
           其他 <NuxtLink :to="{ path: '/services', query: { city: sitter.city } }" class="text-action underline">{{ sitter.city }}</NuxtLink>{{ ' ' }}
           <NuxtLink to="/services" class="text-action underline">寄宿</NuxtLink> 的寵物保姆
         </h2>
-        <ul class="mt-5 grid grid-cols-2 gap-4 tablet:grid-cols-3 tablet:gap-x-gutter desktop:gap-2">
+        <ul v-reveal class="mt-5 grid grid-cols-2 gap-4 tablet:grid-cols-3 tablet:gap-x-gutter desktop:gap-2">
           <li v-for="item in related" :key="item.id">
             <SitterCard :sitter="item" compact class="h-full" />
           </li>

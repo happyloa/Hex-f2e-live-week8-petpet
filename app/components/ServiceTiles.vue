@@ -6,7 +6,7 @@ import { asset, services } from '~/data/petpet'
   <section class="site-container">
     <h2 class="text-heading font-bold">線上預約</h2>
     <p class="mt-1 text-label">即時瞭解您的需求，安排最適合毛孩的寵物保姆！</p>
-    <div class="service-tiles mt-3 grid gap-1 tablet:mt-4">
+    <div v-reveal class="service-tiles mt-3 grid gap-1 tablet:mt-4">
       <NuxtLink v-for="service in services" :key="service.id" :to="{ path: '/services', query: { service: service.id } }"
         class="group relative isolate grid min-h-[132px] place-items-center overflow-hidden rounded-ui text-lead font-bold text-white tablet:min-h-0">
         <img :src="asset(service.image)" alt="" loading="lazy"

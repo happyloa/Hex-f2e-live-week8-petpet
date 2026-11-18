@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { services } from '~/data/petpet'
+import type { ServiceId } from '~/data/petpet'
+
+const footerServices = [
+  { id: 'boarding', label: '寵物寄宿' },
+  { id: 'home-care', label: '寵物到府保姆' },
+  { id: 'grooming', label: '寵物美容洗澡' },
+  { id: 'training', label: '寵物行為訓練' },
+] as const satisfies readonly { id: ServiceId; label: string }[]
 
 const email = ref('')
 const sent = ref(false)
@@ -11,9 +18,9 @@ function requestHelp() {
 </script>
 
 <template>
-  <section id="support" class="bg-brand py-9 tablet:py-9">
+  <section id="support" aria-labelledby="support-heading" class="bg-brand py-9">
     <div class="site-container">
-      <h2 class="text-lead font-bold tablet:text-display">有任何我們能幫助您的嗎？</h2>
+      <h2 id="support-heading" class="text-lead font-bold tablet:text-display">有任何我們能幫助您的嗎？</h2>
       <p class="mt-2 tablet:text-label">輸入電子信箱<br>將有專業人員在線幫您解決所有問題</p>
       <form class="mt-4 flex max-w-[510px] desktop:max-w-[540px]" @submit.prevent="requestHelp">
         <label for="support-contact" class="sr-only">電子信箱</label>
@@ -27,7 +34,7 @@ function requestHelp() {
   <footer class="site-container pb-6 pt-3 tablet:pb-[30px] tablet:pt-16">
     <div class="grid grid-cols-4 gap-gutter">
       <div class="col-span-4 tablet:col-span-1">
-        <NuxtLink to="/" class="logo" aria-label="PETPET 首頁">PETPET</NuxtLink>
+        <NuxtLink to="/" class="logo" aria-label="PETPET 首頁"><span aria-hidden="true">PETPET</span></NuxtLink>
         <ul class="mt-8 hidden space-y-6 tablet:block">
           <li><NuxtLink to="/#about" class="hover:underline">關於我們</NuxtLink></li>
           <li><a href="#support" class="hover:underline">幫助中心</a></li>
@@ -39,9 +46,9 @@ function requestHelp() {
       <div class="hidden pt-2 tablet:block">
         <h2 class="text-label font-bold">寵物服務</h2>
         <ul class="mt-8 space-y-6">
-          <li v-for="service in [services[0], services[2], services[1], services[4]]" :key="service.id">
+          <li v-for="service in footerServices" :key="service.id">
             <NuxtLink :to="{ path: '/services', query: { service: service.id } }" class="hover:underline">
-              {{ { grooming: '寵物美容洗澡', 'home-care': '寵物到府保姆', training: '寵物行為訓練' }[service.id as string] || service.name }}
+              {{ service.label }}
             </NuxtLink>
           </li>
         </ul>

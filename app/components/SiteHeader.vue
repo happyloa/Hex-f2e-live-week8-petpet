@@ -36,7 +36,7 @@ function closeMenu() {
 <template>
   <header class="sticky top-0 z-20 h-[62px] bg-white tablet:h-16" @keydown.esc="closeMenu">
     <div class="site-container flex h-full items-center justify-center tablet:justify-between">
-      <NuxtLink to="/" class="logo -translate-y-1 tablet:translate-y-0" aria-label="PETPET 首頁">PETPET</NuxtLink>
+      <NuxtLink to="/" class="logo -translate-y-1 tablet:translate-y-0" aria-label="PETPET 首頁"><span aria-hidden="true">PETPET</span></NuxtLink>
       <nav class="hidden items-center gap-10 tablet:flex" aria-label="主選單">
         <NuxtLink to="/services" class="hover:text-action">預約服務</NuxtLink>
         <!-- XD 僅提供加入入口，使用預留頁面。 -->

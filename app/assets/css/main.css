@@ -11,6 +11,7 @@
   --color-ink: #772400;
   --color-action: #d54100;
   --color-action-hover: #b53700;
+  --color-action-text: #bd3b00;
   --color-field: #dadfe3;
   --color-muted: #6c757d;
   --color-form: #212529;
@@ -85,7 +86,7 @@
   }
 
   .button-outline {
-    @apply border border-action text-action hover:bg-action hover:text-white;
+    @apply border border-action text-action-text hover:bg-action hover:text-white;
   }
 
   .field {

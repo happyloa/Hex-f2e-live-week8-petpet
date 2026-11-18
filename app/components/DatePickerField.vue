@@ -5,10 +5,11 @@ import '@vuepic/vue-datepicker/dist/main.css'
 defineProps<{ label: string; min?: string; small?: boolean }>()
 const date = defineModel<string>({ required: true })
 const format = 'yyyy-MM-dd'
+const menuId = useId()
 </script>
 
 <template>
-  <VueDatePicker v-model="date" :model-type="format" :formats="{ input: format, month: 'M 月', year: 'yyyy 年' }"
+  <VueDatePicker v-model="date" :model-type="format" :menu-id="menuId" :formats="{ input: format, month: 'M 月', year: 'yyyy 年' }"
     :min-date="min || undefined" :time-config="{ enableTimePicker: false }"
     :input-attrs="{ clearable: false, inputmode: 'none', hideInputIcon: true }"
     :aria-labels="{ input: label, menu: '選擇日期', prevMonth: '上一個月', nextMonth: '下一個月' }"

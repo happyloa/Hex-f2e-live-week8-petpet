@@ -12,7 +12,7 @@ useHead({ title })
 <template>
   <header class="bg-white">
     <div class="site-container flex h-[62px] items-center justify-center tablet:h-16 tablet:justify-start">
-      <a href="/" class="logo" aria-label="PETPET 首頁">PETPET</a>
+      <a href="/" class="logo" aria-label="PETPET 首頁"><span aria-hidden="true">PETPET</span></a>
     </div>
   </header>
   <main class="grid min-h-[calc(100svh-62px)] items-center bg-brand-soft py-10 tablet:min-h-[calc(100svh-64px)] tablet:py-section">

@@ -3,7 +3,7 @@ import type { BookingOptions } from '~/composables/useBooking'
 import { asset, serviceSummary, type Sitter } from '~/data/petpet'
 
 defineProps<{ sitter: Sitter; allServices?: boolean; booking?: BookingOptions }>()
-const { open } = useBooking()
+const { ready, open } = useBooking()
 </script>
 
 <template>
@@ -14,7 +14,7 @@ const { open } = useBooking()
     <img v-if="sitter.avatar" :src="asset(sitter.avatar)" alt="" width="100" height="100" loading="lazy" class="relative -mt-[50px] rounded-full">
     <h3 class="mt-2 text-label font-medium"><NuxtLink :to="'/sitters/' + sitter.id" class="hover:underline">{{ sitter.name }}</NuxtLink></h3>
     <p class="mt-1 px-1">{{ sitter.id === 'yvonne' && !allServices ? '美容、寵物行為訓練' : serviceSummary(sitter, true) }}</p>
-    <button type="button" class="button button-primary mt-2 w-40" @click="open(sitter, booking)">預約</button>
+    <button type="button" class="button button-primary mt-2 w-40 disabled:opacity-60" :disabled="!ready" @click="open(sitter, booking, $event.currentTarget)">預約</button>
     <dl class="mt-6 flex w-full max-w-[264px] justify-around gap-2 px-2 pb-7">
       <div>
         <dt>獲得評價</dt>

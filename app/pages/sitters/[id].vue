@@ -2,7 +2,7 @@
 import { services, sitters } from '~/data/petpet'
 
 const route = useRoute()
-const { open } = useBooking()
+const { ready, open } = useBooking()
 const sitter = computed(() => sitters.find(item => item.id === route.params.id))
 if (!sitter.value) throw createError({ statusCode: 404, statusMessage: '找不到這位保姆' })
 
@@ -56,7 +56,7 @@ useHead({ title: computed(() => sitter.value?.name ?? '寵物保姆') })
         </div>
         <div class="mt-7 grid max-w-[445px] grid-cols-2 gap-4 tablet:gap-gutter desktop:mt-[60px] desktop:grid-cols-[160px_1fr]">
           <a href="mailto:petpet@petmail.com" class="button button-outline text-label">聯繫</a>
-          <button type="button" class="button button-primary text-label" @click="open(sitter)">立刻預約</button>
+          <button type="button" class="button button-primary text-label disabled:opacity-60" :disabled="!ready" @click="open(sitter, undefined, $event.currentTarget)">立刻預約</button>
         </div>
       </section>
     </div>

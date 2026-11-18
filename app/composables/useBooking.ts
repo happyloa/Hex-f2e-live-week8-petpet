@@ -28,10 +28,12 @@ export interface Reservation {
 }
 
 export function useBooking() {
+  const ready = useState('booking-ready', () => false)
   const selection = useState<BookingSelection | null>('booking-selection', () => null)
   const reservations = useState<Reservation[]>('reservations', () => [])
 
-  function open(sitter: Sitter, options: BookingOptions = {}) {
+  function open(sitter: Sitter, options: BookingOptions = {}, trigger?: EventTarget | null) {
+    if (trigger && trigger instanceof HTMLElement) trigger.focus({ preventScroll: true })
     const start = options.start || demoReservationDates.start
     const end = options.end || demoReservationDates.end
     selection.value = {
@@ -55,5 +57,5 @@ export function useBooking() {
     reservations.value = reservations.value.filter((reservation) => reservation.id !== id)
   }
 
-  return { selection, reservations, open, close, save, cancel }
+  return { ready, selection, reservations, open, close, save, cancel }
 }

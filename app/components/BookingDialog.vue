@@ -2,10 +2,11 @@
 import { demoReservationDates } from '~/composables/useBooking'
 import { asset, services, type PetId, type ServiceId } from '~/data/petpet'
 
-const { selection, save, close } = useBooking()
+const { ready, selection, save, close } = useBooking()
 const { isSignedIn } = useMember()
 const dialog = ref<HTMLDialogElement>()
 const step = ref(0)
+const bookingFieldsPending = ref(false)
 const service = ref<ServiceId>('boarding')
 const start = ref(demoReservationDates.start)
 const end = ref(demoReservationDates.end)
@@ -15,6 +16,8 @@ const age = ref(1)
 const contact = ref({ petName: '', ownerName: '', email: '', phone: '' })
 const stepTitle = computed(() => ['預約項目', '預約資料', '付款資訊', '預約成功!'][step.value])
 let opener: HTMLElement | null = null
+
+onMounted(() => { ready.value = true })
 
 watch(selection, async (booking) => {
   if (!booking) {
@@ -41,6 +44,7 @@ watch(step, async () => {
 })
 
 function next() {
+  if (step.value === 0 && bookingFieldsPending.value) return
   if (step.value < 2) {
     step.value++
     return
@@ -96,15 +100,22 @@ async function goToMember() {
           </div>
         </aside>
         <div class="booking-fields">
-          <LazyBookingServiceFields v-if="step === 0" v-model:service="service" v-model:start="start" v-model:end="end"
-            v-model:count="count" v-model:pet="pet" v-model:age="age" :sitter="selection.sitter" />
+          <Suspense v-if="step === 0" @pending="bookingFieldsPending = true" @resolve="bookingFieldsPending = false">
+            <LazyBookingServiceFields v-model:service="service" v-model:start="start" v-model:end="end"
+              v-model:count="count" v-model:pet="pet" v-model:age="age" :sitter="selection.sitter" />
+            <template #fallback>
+              <p role="status" class="py-4 text-muted">預約選項載入中…</p>
+            </template>
+          </Suspense>
           <BookingContactFields v-else-if="step === 1" v-model="contact" />
           <BookingPaymentFields v-else />
         </div>
         <div class="booking-actions grid content-end gap-2 text-center tablet:ml-auto desktop:w-full">
           <button v-if="step > 0" type="button" class="min-h-8 text-action-text hover:underline" @click="goBack">返回</button>
           <button v-else type="button" class="min-h-8 text-action-text hover:underline tablet:hidden" @click="close">返回</button>
-          <button class="button button-primary w-full text-label">{{ step === 2 ? '確認預約' : '下一步' }}</button>
+          <button class="button button-primary w-full text-label disabled:opacity-60" :disabled="step === 0 && bookingFieldsPending">
+            {{ step === 2 ? '確認預約' : '下一步' }}
+          </button>
         </div>
       </form>
     </div>
@@ -127,7 +138,7 @@ async function goToMember() {
 .booking-dialog[open] { display: grid; align-content: safe center; justify-items: center; overflow: auto; }
 .booking-dialog::backdrop { background: linear-gradient(transparent 62px, var(--color-overlay) 62px); }
 .booking-frame { max-width: 690px; min-height: min(670px, calc(100dvh - 94px)); }
-.booking-dialog[open] .booking-frame { animation: dialog-enter 180ms ease both; }
+.booking-dialog[open] .booking-frame { animation: dialog-enter 180ms ease; }
 .booking-form {
   display: grid;
   min-height: inherit;
@@ -173,7 +184,7 @@ async function goToMember() {
   }
 }
 @keyframes dialog-enter {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 </style>

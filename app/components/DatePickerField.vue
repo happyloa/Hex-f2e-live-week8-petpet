@@ -6,6 +6,17 @@ const props = defineProps<{ label: string; min?: string; small?: boolean }>()
 const date = defineModel<string>({ required: true })
 const format = 'yyyy-MM-dd'
 const menuId = useId()
+const ready = ref(false)
+const menuOpen = ref(false)
+const floating = { strategy: 'fixed', shift: { crossAxis: true, padding: 8 } } as const
+
+onMounted(() => { ready.value = true })
+
+function handleEscape(event: KeyboardEvent) {
+  // Let the picker handle Escape without also cancelling the native booking dialog.
+  if (menuOpen.value) event.preventDefault()
+}
+
 const dateLabel = new Intl.DateTimeFormat('zh-TW', { dateStyle: 'full' })
 const ariaLabels = computed(() => ({
   input: props.label,
@@ -20,7 +31,9 @@ const ariaLabels = computed(() => ({
   <VueDatePicker v-model="date" :model-type="format" :menu-id="menuId" :formats="{ input: format, month: 'M 月', year: 'yyyy 年' }"
     :min-date="min || undefined" :time-config="{ enableTimePicker: false }"
     :input-attrs="{ clearable: false, inputmode: 'none', hideInputIcon: true }"
-    :aria-labels="ariaLabels"
+    :aria-labels="ariaLabels" :aria-busy="!ready" :disabled="!ready"
+    :floating="floating" @open="menuOpen = true" @closed="menuOpen = false"
+    @keydown.esc.capture="handleEscape"
     :week-start="0" :day-names="['日', '一', '二', '三', '四', '五', '六']"
     :config="{ monthChangeOnScroll: false }"
     :placeholder="format.toUpperCase()" auto-apply arrow-navigation
@@ -48,6 +61,16 @@ const ariaLabels = computed(() => ({
   background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='5' width='18' height='16' rx='2'/%3E%3Cpath d='M3 10h18M8 3v4m8-4v4'/%3E%3C/svg%3E") right 9px center no-repeat;
 }
 
+.petpet-date :deep(.dp--input:disabled) {
+  cursor: wait;
+  background-color: var(--color-panel);
+}
 .petpet-date-small :deep(.dp--input) { height: var(--spacing-control-small); }
 .petpet-date :deep(.dp--menu) { box-shadow: var(--shadow-card); }
+@media (height < 24rem) {
+  .petpet-date :deep(.dp--menu) {
+    max-height: calc(100dvh - 1rem);
+    overflow-y: auto;
+  }
+}
 </style>

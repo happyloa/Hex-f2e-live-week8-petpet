@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { demoLoginStorageKey } from '~/composables/useMember'
 import { asset } from '~/data/petpet'
 
 const { isSignedIn } = useMember()
@@ -12,8 +13,8 @@ function enterDemo() {
   password.value = ''
   isSignedIn.value = true
   try {
-    if (remember.value) localStorage.setItem('petpet-remember-demo', 'true')
-    else localStorage.removeItem('petpet-remember-demo')
+    if (remember.value) localStorage.setItem(demoLoginStorageKey, 'true')
+    else localStorage.removeItem(demoLoginStorageKey)
   } catch { /* The login still works when browser storage is unavailable. */ }
   return navigateTo('/member')
 }

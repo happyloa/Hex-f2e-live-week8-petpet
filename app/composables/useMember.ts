@@ -1,3 +1,5 @@
+export const demoLoginStorageKey = 'petpet-remember-demo'
+
 export function useMember() {
   const isSignedIn = useState('member-signed-in', () => false)
   const profile = useState('member-profile', () => ({

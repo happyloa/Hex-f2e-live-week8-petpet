@@ -11,7 +11,12 @@ const titles = {
   'sitter-account': '切換保姆帳號',
   terms: '使用條款',
 }
-const title = computed(() => titles[route.params.topic as keyof typeof titles])
+const title = computed(() => {
+  const topic = route.params.topic
+  return typeof topic === 'string' && Object.hasOwn(titles, topic)
+    ? titles[topic as keyof typeof titles]
+    : undefined
+})
 if (!title.value) throw createError({ statusCode: 404, statusMessage: '找不到這個頁面' })
 useHead({ title })
 </script>

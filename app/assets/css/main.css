@@ -4,6 +4,9 @@
 
 @theme {
   --color-brand: #f0ad25;
+  --color-brand-soft: #fff6e3;
+  --color-scrollbar-thumb: #9a652e;
+  --color-selection: #ffdb8d;
   --color-logo: #f8b52e;
   --color-ink: #772400;
   --color-action: #d54100;
@@ -42,7 +45,15 @@
 }
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    scrollbar-color: var(--color-scrollbar-thumb) var(--color-brand-soft);
+  }
+
+  ::selection {
+    color: var(--color-ink);
+    background-color: var(--color-selection);
+  }
   body { @apply bg-white font-sans text-ink antialiased; }
   html:has(.booking-dialog[open]) { overflow: hidden; }
   button { @apply cursor-pointer; }
@@ -100,4 +111,9 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+@media (forced-colors: active) {
+  html { scrollbar-color: auto; }
+  ::selection { color: HighlightText; background-color: Highlight; }
 }

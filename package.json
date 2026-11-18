@@ -27,5 +27,10 @@
     "typescript": "6.0.3",
     "vue-tsc": "3.3.14",
     "wrangler": "4.164.0"
+  },
+  "overrides": {
+    "archiver@8.0.0": {
+      "readdir-glob": "4.0.0"
+    }
   }
 }

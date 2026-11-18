@@ -1,5 +1,4 @@
 <script setup lang="ts">
-definePageMeta({ showFooter: true })
 useHead({
   title: '寵物服務，盡在 PETPET',
   titleTemplate: '%s',

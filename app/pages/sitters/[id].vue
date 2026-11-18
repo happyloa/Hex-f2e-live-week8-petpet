@@ -22,7 +22,6 @@ const details = [
   { title: '服務地區', body: '高雄市' },
 ]
 
-definePageMeta({ showFooter: true })
 useHead({ title: computed(() => sitter.value?.name ?? '寵物保姆') })
 </script>
 

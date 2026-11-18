@@ -24,7 +24,6 @@ watch(() => route.query, (query) => {
 })
 watch([service, pet, city], () => { page.value = 1 })
 
-definePageMeta({ showFooter: true })
 useHead({ title: computed(() => service.value.name) })
 </script>
 

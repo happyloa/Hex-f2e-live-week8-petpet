@@ -39,6 +39,7 @@ GitHub `main` 已連至 Cloudflare Workers Builds。`main` 有新推送時，Clo
 ## 專案結構
 
 - `app/pages` 負責路由及各頁的內容組合。
+- `app/layouts/default.vue` 統一全站導覽、支援表單、頁尾與預約視窗，含登入、會員及錯誤頁。
 - `app/components` 放共用導覽、服務卡片、日期欄位、表單及預約視窗。
 - `app/composables` 集中處理預約選擇、會員狀態及預約記錄。
 - `app/data/petpet.ts` 放服務、保姆及評論的示範資料。

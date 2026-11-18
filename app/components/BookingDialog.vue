@@ -163,7 +163,6 @@ async function goToMember() {
 }
 @media (width >= 64rem) {
   .booking-dialog { padding-bottom: 52px; }
-  .booking-dialog[data-step='0']::backdrop { background: linear-gradient(transparent 64px, #000 64px); }
   .booking-frame { max-width: 920px; min-height: min(580px, calc(100dvh - 95px)); }
   .booking-form {
     grid-template-areas: 'heading sitter' 'fields sitter' 'progress actions';

@@ -85,7 +85,7 @@ async function goToMember() {
         <BookingProgress :current="step" class="booking-progress" />
         <h2 id="booking-heading" tabindex="-1" class="booking-heading text-lead font-bold">{{ stepTitle }}</h2>
         <aside class="booking-sitter flex items-center gap-3 tablet:gap-gutter desktop:block">
-          <img :src="asset(selection.sitter.image)" alt="" class="size-[100px] rounded-ui object-cover tablet:size-[150px] desktop:size-full desktop:aspect-square">
+          <img :src="asset(selection.sitter.image)" alt="" class="size-[100px] rounded-ui object-cover tablet:size-[150px] desktop:h-auto desktop:w-full desktop:aspect-square">
           <div class="min-w-0 desktop:mt-2">
             <p class="flex flex-wrap items-center gap-x-2 text-label font-bold">{{ selection.sitter.name }} <StarRating class="text-lead" /></p>
             <p class="mt-1 flex items-start gap-2">

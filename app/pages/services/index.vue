@@ -28,7 +28,8 @@ useHead({ title: computed(() => service.value.name) })
 <template>
   <section class="flex flex-col tablet:site-container tablet:min-h-[435px] tablet:flex-row-reverse tablet:items-center tablet:gap-gutter">
     <img :src="asset(service.id === 'boarding' ? 'homestay-1.png' : service.image)" alt=""
-      class="h-[352px] w-full bg-brand object-cover tablet:h-[315px] tablet:w-[57%] desktop:w-[65.77%]">
+      class="h-[352px] w-full bg-brand object-cover tablet:h-[315px] tablet:w-[57%] desktop:w-[65.77%]"
+      :class="{ 'object-[36%_center] tablet:object-center': service.id === 'boarding' }">
     <div class="site-container py-3 text-center tablet:w-auto tablet:flex-1 tablet:py-0 tablet:text-left">
       <h1 class="text-subheading font-bold tablet:text-display">{{ service.name }}</h1>
       <p class="mt-1 text-label font-medium tablet:mt-2 tablet:text-lead tablet:font-bold">給您的毛孩最舒適的環境</p>

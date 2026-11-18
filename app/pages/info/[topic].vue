@@ -8,6 +8,7 @@ const titles = {
   privacy: '隱私政策',
   register: '註冊',
   taxi: '加入寵物計程車',
+  'sitter-account': '切換保姆帳號',
   terms: '使用條款',
 }
 const title = computed(() => titles[route.params.topic as keyof typeof titles])

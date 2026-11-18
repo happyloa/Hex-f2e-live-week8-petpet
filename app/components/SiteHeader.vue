@@ -31,7 +31,8 @@ function closeMenu() {
             <NuxtLink to="/member?tab=reservations#reservations" class="px-5 py-1 hover:bg-panel">預約查詢</NuxtLink>
             <!-- XD 未提供歷史預約畫板。 -->
             <NuxtLink to="/info/history" class="px-5 py-1 hover:bg-panel">歷史預約</NuxtLink>
-            <button type="button" class="mt-1 border-t border-field px-5 pt-2 text-left text-action" @click="signOut">登出</button>
+            <!-- XD 僅提供切換保姆帳號入口，使用預留頁面。 -->
+            <NuxtLink to="/info/sitter-account" class="mt-1 border-t border-field px-5 pt-2 text-action">切換保姆帳號</NuxtLink>
           </div>
         </details>
       </nav>

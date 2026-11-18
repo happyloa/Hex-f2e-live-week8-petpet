@@ -1,0 +1,103 @@
+@import '@fontsource-variable/roboto/wght.css';
+@import '@fontsource-variable/noto-sans-tc/wght.css';
+@import 'tailwindcss';
+
+@theme {
+  --color-brand: #f0ad25;
+  --color-logo: #f8b52e;
+  --color-ink: #772400;
+  --color-action: #d54100;
+  --color-action-hover: #b53700;
+  --color-field: #dadfe3;
+  --color-muted: #6c757d;
+  --color-form: #212529;
+  --color-panel: #fafafa;
+  --color-overlay: #999;
+
+  --font-sans: 'Noto Sans TC Variable', 'Roboto Variable', sans-serif;
+  --font-brand: Arial, sans-serif;
+  --font-latin: 'Roboto Variable', 'Noto Sans TC Variable', sans-serif;
+  --breakpoint-*: initial;
+  --breakpoint-tablet: 48rem;
+  --breakpoint-desktop: 64rem;
+  --container-site: 69.375rem;
+
+  --text-display: 2.5rem;
+  --text-display--line-height: 1.5;
+  --text-heading: 2rem;
+  --text-heading--line-height: 1.5;
+  --text-subheading: 1.75rem;
+  --text-subheading--line-height: 1.5;
+  --text-lead: 1.5rem;
+  --text-lead--line-height: 1.5;
+  --text-label: 1.25rem;
+  --text-label--line-height: 1.5;
+
+  --spacing-control: 3rem;
+  --spacing-control-small: 2.375rem;
+  --spacing-gutter: 1.875rem;
+  --spacing-section: 5rem;
+  --radius-ui: 0.25rem;
+  --shadow-card: 0 2px 6px #0003;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-white font-sans text-ink antialiased; }
+  html:has(.booking-dialog[open]) { overflow: hidden; }
+  button { @apply cursor-pointer; }
+  button:disabled { @apply cursor-default; }
+  :focus-visible { @apply outline-2 outline-offset-2 outline-action; }
+  img { @apply max-w-full; }
+}
+
+@utility site-container {
+  width: calc(100% - 2 * 15px);
+  max-width: var(--container-site);
+  margin-inline: auto;
+
+  @media (width >= 48rem) { width: calc(100% - 2 * 39px); }
+  @media (width >= 64rem) { width: calc(100% - 2 * 48px); }
+}
+
+@layer components {
+  .skip-link {
+    @apply fixed -top-20 left-4 z-50 bg-white px-4 py-2 focus:top-3;
+  }
+
+  .button {
+    @apply inline-flex min-h-control items-center justify-center rounded-ui px-4 text-center transition-colors;
+  }
+
+  .button-primary {
+    @apply bg-action text-white hover:bg-action-hover;
+  }
+
+  .button-outline {
+    @apply border border-action text-action hover:bg-action hover:text-white;
+  }
+
+  .field {
+    @apply h-control min-w-0 rounded-ui border border-field bg-white px-4 text-muted;
+  }
+
+  .field::placeholder {
+    @apply text-muted opacity-100;
+  }
+
+  .field-small {
+    @apply h-control-small;
+  }
+
+  .logo {
+    @apply inline-block font-brand text-[36px] leading-none font-normal text-logo;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

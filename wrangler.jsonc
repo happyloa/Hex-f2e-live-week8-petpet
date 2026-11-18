@@ -1,0 +1,6 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hex-petpet",
+  "compatibility_date": "2026-11-18",
+  "observability": { "enabled": true }
+}

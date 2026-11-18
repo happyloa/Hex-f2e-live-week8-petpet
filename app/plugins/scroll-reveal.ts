@@ -15,9 +15,9 @@ export default defineNuxtPlugin(({ vueApp }) => {
       if (reducedMotion.matches) continue
 
       const animation = element.animate([
-        { opacity: 0, transform: 'translateY(12px)' },
+        { opacity: 0, transform: 'translateY(20px)' },
         { opacity: 1, transform: 'translateY(0)' },
-      ], { duration: 420, easing: 'ease-out' })
+      ], { duration: 500, easing: 'ease-out' })
       animation.id = 'scroll-reveal'
     }
   }, { threshold: 0.12 })

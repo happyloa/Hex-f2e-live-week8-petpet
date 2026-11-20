@@ -26,10 +26,10 @@ useHead({ title: computed(() => sitter.value?.name ?? '寵物保姆') })
 </script>
 
 <template>
-  <div v-if="sitter" class="site-container pt-1 pb-16 tablet:pt-[60px] tablet:pb-[60px] desktop:py-section">
-    <div class="grid gap-y-10 tablet:grid-cols-[3fr_2fr] tablet:items-start tablet:gap-x-gutter desktop:grid-cols-2">
+  <div v-if="sitter" class="site-container pt-1 pb-16 tablet:pt-[60px] tablet:pb-[60px] desktop:grid desktop:grid-cols-2 desktop:items-start desktop:gap-x-gutter desktop:py-section">
+    <div class="grid gap-y-10 tablet:grid-cols-[3fr_2fr] tablet:items-start tablet:gap-x-gutter desktop:contents">
       <SitterGallery :photos="photos" :name="sitter.name" class="tablet:col-start-2 tablet:row-start-1" />
-      <section class="tablet:col-start-1 tablet:row-start-1">
+      <section class="sitter-summary tablet:col-start-1 tablet:row-start-1 desktop:row-end-3">
         <div class="flex flex-wrap items-center gap-3">
           <h1 class="text-heading font-bold">{{ sitter.name }}</h1>
           <StarRating class="text-[28px]" />
@@ -61,7 +61,7 @@ useHead({ title: computed(() => sitter.value?.name ?? '寵物保姆') })
       </section>
     </div>
 
-    <div class="mt-12 grid gap-12 tablet:mt-16 tablet:gap-16 desktop:mt-[188px] desktop:w-[calc(50%-15px)] desktop:ml-auto desktop:gap-section">
+    <div class="mt-12 grid gap-12 tablet:mt-16 tablet:gap-16 desktop:col-start-2 desktop:row-start-2 desktop:mt-[188px] desktop:gap-section">
       <section v-if="isGoodHome" class="grid gap-7 tablet:max-w-[390px] tablet:gap-8 desktop:max-w-none desktop:gap-[44px]">
         <div v-for="detail in details" :key="detail.title">
           <h2 class="text-lead font-bold">{{ detail.title }}</h2>
@@ -83,3 +83,13 @@ useHead({ title: computed(() => sitter.value?.name ?? '寵物保姆') })
     </div>
   </div>
 </template>
+
+<style scoped>
+/* XD 要求桌機捲動時左側固定。視窗較矮時往上移，讓預約按鈕留在畫面內。 */
+@media (width >= 64rem) and (height >= 40rem) {
+  .sitter-summary {
+    position: sticky;
+    top: clamp(5rem, 100dvh - 35rem, 9rem);
+  }
+}
+</style>

@@ -78,7 +78,7 @@ async function goToMember() {
   <dialog ref="dialog" class="booking-dialog" aria-labelledby="booking-heading" :data-step="step" @cancel.prevent="close"
     @click.self="close">
     <div v-if="selection" class="booking-frame relative w-full rounded-ui bg-panel shadow-card">
-      <button type="button" class="absolute top-2 right-2 grid size-8 place-items-center rounded-ui text-muted hover:bg-field"
+      <button type="button" class="booking-close absolute top-2 right-2 grid size-8 place-items-center rounded-ui text-muted hover:bg-field"
         aria-label="關閉預約" @click="close"><AppIcon name="close" class="size-5" /></button>
       <div v-if="step === 3" class="grid min-h-[inherit] place-content-center px-6 py-12 text-center">
         <AppIcon name="pets" class="mx-auto size-16 text-brand" />
@@ -110,8 +110,8 @@ async function goToMember() {
           <BookingContactFields v-else-if="step === 1" v-model="contact" />
           <BookingPaymentFields v-else />
         </div>
-        <div class="booking-actions grid content-end gap-2 text-center tablet:ml-auto desktop:w-full">
-          <button v-if="step > 0" type="button" class="min-h-8 text-action-text hover:underline" @click="goBack">返回</button>
+        <div class="booking-actions grid content-end gap-2 text-center tablet:ml-auto desktop:relative desktop:w-full">
+          <button v-if="step > 0" type="button" class="min-h-8 text-action-text hover:underline desktop:absolute desktop:inset-x-0 desktop:bottom-full desktop:mb-2" @click="goBack">返回</button>
           <button v-else type="button" class="min-h-8 text-action-text hover:underline tablet:hidden" @click="close">返回</button>
           <button class="button button-primary w-full text-label disabled:opacity-60" :disabled="step === 0 && bookingFieldsPending">
             {{ step === 2 ? '確認預約' : '下一步' }}
@@ -152,6 +152,10 @@ async function goToMember() {
 .booking-sitter { grid-area: sitter; }
 .booking-fields { grid-area: fields; margin-block: 8px 4px; }
 .booking-actions { grid-area: actions; }
+@media (width < 48rem) {
+  /* 手機版進度條在最上方，關閉鈕移到標題列右側，避免壓到「付款資訊」。 */
+  .booking-dialog:not([data-step='3']) .booking-close { top: 68px; }
+}
 @media (width >= 48rem) {
   .booking-dialog { inset-block-start: 64px; height: calc(100% - 64px); }
   .booking-dialog::backdrop { background: linear-gradient(transparent 64px, var(--color-overlay) 64px); }

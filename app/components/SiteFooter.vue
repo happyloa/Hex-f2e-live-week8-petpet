@@ -25,7 +25,7 @@ function requestHelp() {
       <form class="mt-4 flex max-w-[510px] desktop:max-w-[540px]" @submit.prevent="requestHelp">
         <label for="support-contact" class="sr-only">電子信箱</label>
         <input id="support-contact" v-model="email" type="email" autocomplete="email" required
-          placeholder="example@gmail.com" class="field flex-1 rounded-r-none px-3">
+          placeholder="example@gmail.com" class="field flex-1 rounded-r-none px-3 font-latin">
         <button class="button button-primary w-[48%] rounded-l-none tablet:w-40">送出</button>
       </form>
       <p v-if="sent" class="mt-2" role="status">已完成表單示範。聯絡 PETPET 可使用下方電子郵件。</p>

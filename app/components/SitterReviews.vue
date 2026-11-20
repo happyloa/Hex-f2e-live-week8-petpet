@@ -10,7 +10,7 @@ const expanded = ref(false)
     <h2 class="text-subheading font-bold">飼主評論（{{ total }}）</h2>
     <ul v-reveal class="mt-5 grid gap-5 tablet:grid-flow-col tablet:grid-rows-3 tablet:grid-cols-2 tablet:gap-x-gutter">
       <li v-for="review in featuredReviews" :key="review.name"
-        class="flex min-h-[116px] items-center gap-4 rounded-ui border border-field p-3 desktop:gap-5 desktop:p-4">
+        class="flex min-h-[116px] items-center gap-4 rounded-ui border border-field p-3 desktop:gap-5 desktop:py-4 desktop:pl-4 desktop:pr-2">
         <img :src="asset(review.avatar)" alt="" loading="lazy" width="60" height="60" class="size-[60px] rounded-full">
         <div class="min-w-0">
           <p class="flex flex-wrap items-baseline gap-x-2">

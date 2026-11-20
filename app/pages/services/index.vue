@@ -9,20 +9,30 @@ const city = ref(typeof route.query.city === 'string' ? route.query.city : '高�
 const start = ref(demoReservationDates.start)
 const end = ref(demoReservationDates.end)
 const page = ref(1)
-const pageSize = 8
+// XD 平板版一頁 3 欄 × 3 列，桌機與手機為 8 張。
+const pageSize = ref(8)
+let tabletViewport: MediaQueryList | undefined
+const syncPageSize = () => { pageSize.value = tabletViewport?.matches ? 9 : 8 }
 const results = computed(() => sitters.filter(sitter => sitter.services.includes(service.value.id)
   && (!city.value || sitter.city === city.value)
   && (!pet.value || sitter.pets.some(type => type === pet.value))))
 const featuredResults = computed(() => results.value.filter(sitter => sitter.avatar))
 const booking = computed(() => ({ service: service.value.id, pet: pet.value, start: start.value, end: end.value }))
-const pages = computed(() => Math.ceil(results.value.length / pageSize))
-const visibleSitters = computed(() => results.value.slice((page.value - 1) * pageSize, page.value * pageSize))
+const pages = computed(() => Math.ceil(results.value.length / pageSize.value))
+const visibleSitters = computed(() => results.value.slice((page.value - 1) * pageSize.value, page.value * pageSize.value))
 
 watch(() => route.query, (query) => {
   pet.value = typeof query.pet === 'string' ? query.pet : 'cat'
   city.value = typeof query.city === 'string' ? query.city : '高雄市'
 })
-watch([service, pet, city], () => { page.value = 1 })
+watch([service, pet, city, pageSize], () => { page.value = 1 })
+
+onMounted(() => {
+  tabletViewport = window.matchMedia('(48rem <= width < 64rem)')
+  syncPageSize()
+  tabletViewport.addEventListener('change', syncPageSize)
+})
+onUnmounted(() => tabletViewport?.removeEventListener('change', syncPageSize))
 
 useHead({ title: computed(() => service.value.name) })
 </script>

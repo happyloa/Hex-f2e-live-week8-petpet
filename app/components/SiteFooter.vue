@@ -35,10 +35,9 @@ function requestHelp() {
     <div class="grid grid-cols-4 gap-gutter">
       <div class="col-span-4 tablet:col-span-1">
         <NuxtLink to="/" class="logo" aria-label="PETPET 首頁"><span aria-hidden="true">PETPET</span></NuxtLink>
-        <ul class="mt-8 hidden space-y-6 tablet:block">
-          <li><NuxtLink to="/#about" class="hover:underline">關於我們</NuxtLink></li>
-          <li><a href="#support" class="hover:underline">幫助中心</a></li>
-          <!-- XD 僅提供連結，使用預留頁面。 -->
+        <ul class="mt-2 flex flex-wrap gap-x-4 gap-y-2 text-sm tablet:mt-8 tablet:block tablet:space-y-6 tablet:text-base">
+          <li class="hidden tablet:list-item"><NuxtLink to="/#about" class="hover:underline">關於我們</NuxtLink></li>
+          <li class="hidden tablet:list-item"><a href="#support" class="hover:underline">幫助中心</a></li>
           <li><NuxtLink to="/info/terms" class="hover:underline">使用條款</NuxtLink></li>
           <li><NuxtLink to="/info/privacy" class="hover:underline">隱私政策</NuxtLink></li>
         </ul>
@@ -60,7 +59,6 @@ function requestHelp() {
           <!-- XD 只提供計程車與下載入口，使用預留頁面。 -->
           <li><NuxtLink to="/info/taxi" class="hover:underline">加入寵物計程車</NuxtLink></li>
           <li><NuxtLink to="/info/app" class="hover:underline">專屬 APP 下載</NuxtLink></li>
-          <!-- XD 僅提供連結，使用預留頁面。 -->
           <li><NuxtLink to="/info/terms" class="hover:underline">相關合約條款</NuxtLink></li>
         </ul>
       </div>

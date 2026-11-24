@@ -4,11 +4,9 @@ const titles = {
   app: '專屬 APP 下載',
   history: '歷史預約',
   password: '忘記密碼',
-  privacy: '隱私政策',
   register: '註冊',
   taxi: '加入寵物計程車',
   'sitter-account': '切換保姆帳號',
-  terms: '使用條款',
 }
 const title = computed(() => {
   const topic = route.params.topic

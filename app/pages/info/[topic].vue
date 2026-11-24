@@ -3,7 +3,6 @@ const route = useRoute()
 const titles = {
   app: '專屬 APP 下載',
   history: '歷史預約',
-  join: '成為寵物保姆',
   password: '忘記密碼',
   privacy: '隱私政策',
   register: '註冊',

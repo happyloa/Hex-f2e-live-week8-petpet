@@ -56,8 +56,8 @@ function requestHelp() {
       <div class="hidden pt-2 tablet:block">
         <h2 class="text-label font-bold">加入我們</h2>
         <ul class="mt-8 space-y-6">
-          <!-- XD 僅提供加入與下載入口，使用預留頁面。 -->
           <li><NuxtLink to="/info/join" class="hover:underline">成為寵物保姆</NuxtLink></li>
+          <!-- XD 只提供計程車與下載入口，使用預留頁面。 -->
           <li><NuxtLink to="/info/taxi" class="hover:underline">加入寵物計程車</NuxtLink></li>
           <li><NuxtLink to="/info/app" class="hover:underline">專屬 APP 下載</NuxtLink></li>
           <!-- XD 僅提供連結，使用預留頁面。 -->

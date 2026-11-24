@@ -39,8 +39,7 @@ function closeMenu() {
       <NuxtLink to="/" class="logo -translate-y-1 tablet:translate-y-0" aria-label="PETPET 首頁"><span aria-hidden="true">PETPET</span></NuxtLink>
       <nav class="hidden items-center gap-10 tablet:flex" aria-label="主選單">
         <NuxtLink to="/services" class="hover:text-action">預約服務</NuxtLink>
-        <!-- XD 僅提供加入入口，使用預留頁面。 -->
-        <NuxtLink to="/info/join" class="hover:text-action">成為寵物保姆</NuxtLink>
+        <NuxtLink to="/info/join" active-class="text-action-text" class="hover:text-action">成為寵物保姆</NuxtLink>
         <NuxtLink v-if="!isSignedIn" to="/login" class="hover:text-action">登入</NuxtLink>
         <details v-else ref="memberMenu" class="group relative">
           <summary class="flex cursor-pointer list-none items-center gap-1">
@@ -65,8 +64,7 @@ function closeMenu() {
     <nav v-show="menuOpen" id="mobile-navigation" :data-open="menuOpen || undefined" aria-label="手機選單"
       class="absolute top-full left-0 grid w-full h-[calc(100dvh-62px)] auto-rows-min overflow-y-auto bg-white text-center tablet:hidden">
       <NuxtLink to="/services" class="border-b border-field py-3 text-label" @click="menuOpen = false">預約服務</NuxtLink>
-      <!-- XD 僅提供加入入口，使用預留頁面。 -->
-      <NuxtLink to="/info/join" class="border-b border-field py-3 text-label" @click="menuOpen = false">成為寵物保姆</NuxtLink>
+      <NuxtLink to="/info/join" active-class="text-action-text" class="border-b border-field py-3 text-label" @click="menuOpen = false">成為寵物保姆</NuxtLink>
       <NuxtLink :to="isSignedIn ? '/member' : '/login'" class="border-b border-field py-3 text-label" @click="menuOpen = false">{{ isSignedIn ? '會員資料' : '登入' }}</NuxtLink>
       <NuxtLink v-if="isSignedIn" to="/member?tab=reservations#reservations" class="border-b border-field py-3 text-label" @click="menuOpen = false">預約查詢</NuxtLink>
       <button v-if="isSignedIn" type="button" class="border-b border-field py-3 text-label text-action" @click="signOut">登出</button>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const mobileMenuOpen = ref(false)
+const route = useRoute()
 </script>
 
 <template>
@@ -9,7 +10,7 @@ const mobileMenuOpen = ref(false)
     <main id="main-content" class="min-h-[calc(100svh-62px)] tablet:min-h-[calc(100svh-64px)]" :inert="mobileMenuOpen">
       <slot />
     </main>
-    <div :inert="mobileMenuOpen">
+    <div v-if="!route.meta.hideSiteFooter" :inert="mobileMenuOpen">
       <SiteFooter />
     </div>
     <BookingDialog />

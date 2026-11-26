@@ -4,8 +4,10 @@ import { asset, services, sitters } from '~/data/petpet'
 
 const route = useRoute()
 const service = computed(() => services.find(item => item.id === route.query.service) ?? services[0])
-const pet = ref(typeof route.query.pet === 'string' ? route.query.pet : 'cat')
-const city = ref(typeof route.query.city === 'string' ? route.query.city : '高雄市')
+const queryFilter = (value: unknown, fallback: string) =>
+  typeof value === 'string' && value ? value : fallback
+const pet = ref(queryFilter(route.query.pet, 'cat'))
+const city = ref(queryFilter(route.query.city, '高雄市'))
 const start = ref(demoReservationDates.start)
 const end = ref(demoReservationDates.end)
 const page = ref(1)
@@ -22,8 +24,8 @@ const pages = computed(() => Math.ceil(results.value.length / pageSize.value))
 const visibleSitters = computed(() => results.value.slice((page.value - 1) * pageSize.value, page.value * pageSize.value))
 
 watch(() => route.query, (query) => {
-  pet.value = typeof query.pet === 'string' ? query.pet : 'cat'
-  city.value = typeof query.city === 'string' ? query.city : '高雄市'
+  pet.value = queryFilter(query.pet, 'cat')
+  city.value = queryFilter(query.city, '高雄市')
 })
 watch([service, pet, city, pageSize], () => { page.value = 1 })
 

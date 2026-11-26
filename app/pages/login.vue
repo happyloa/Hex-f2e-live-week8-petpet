@@ -7,6 +7,7 @@ const email = ref('')
 const password = ref('')
 const remember = ref(false)
 
+definePageMeta({ hideSiteFooter: true })
 useHead({ title: '登入' })
 
 function enterDemo() {
@@ -26,7 +27,7 @@ function enterDemo() {
     <div class="login-inner site-container">
       <div class="login-content">
         <h1 class="text-heading font-bold">登入</h1>
-        <form class="mt-7 text-form tablet:mt-[60px]" @submit.prevent="enterDemo">
+        <form class="mt-7 text-form tablet:mt-[60px]" aria-describedby="demo-login-note" @submit.prevent="enterDemo">
           <label class="grid gap-1">電子信箱
             <input v-model="email" type="email" required placeholder="example@gmail.com" autocomplete="off" class="field text-label">
           </label>
@@ -49,7 +50,7 @@ function enterDemo() {
         </form>
         <!-- XD 無註冊畫板，連結至預留頁面。 -->
         <NuxtLink to="/info/register" class="mt-2 inline-block text-action hover:underline">還沒註冊嗎？</NuxtLink>
-        <p class="mt-3 text-sm text-muted">切版作業示範，請使用測試資料。</p>
+        <p id="demo-login-note" class="sr-only">切版作業示範，請使用測試資料。</p>
       </div>
     </div>
   </section>

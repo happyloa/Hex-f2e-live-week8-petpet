@@ -10,9 +10,14 @@ const isGoodHome = computed(() => sitter.value?.id === 'good-home')
 const photos = computed(() => isGoodHome.value
   ? ['homestay-3.webp', 'index-5.webp', 'detail-1.webp', 'detail2.webp']
   : [sitter.value!.image])
-const related = computed(() => ['pet-house', 'paw-team', 'pet-and-home', 'cat-butler', 'mimi', 'cat-first']
-  .filter(id => id !== sitter.value?.id)
-  .map(id => sitters.find(item => item.id === id)!))
+const related = computed(() => {
+  const ids = isGoodHome.value
+    ? ['pet-house', 'good-home', 'cat-butler', 'cat-first', 'paw-team', 'mimi']
+    : ['pet-house', 'paw-team', 'pet-and-home', 'cat-butler', 'mimi', 'cat-first']
+      .filter(id => id !== sitter.value?.id)
+
+  return ids.map(id => sitters.find(item => item.id === id)!)
+})
 const details = [
   { title: '關於', body: '家中有5隻貓寶貝，對貓咪有瘋狂的熱愛 。\n目前已經照顧超過30位狗狗貓咪朋友！對於我來說，能夠與你們相遇都是緣分！' },
   { title: '經歷', body: '曾接手過數次奶貓，照顧後送養成功，目前都是健健康康的毛孩。' },
@@ -26,7 +31,7 @@ useHead({ title: computed(() => sitter.value?.name ?? '寵物保姆') })
 </script>
 
 <template>
-  <div v-if="sitter" class="site-container pt-1 pb-16 tablet:pt-[60px] tablet:pb-[60px] desktop:grid desktop:grid-cols-2 desktop:items-start desktop:gap-x-gutter desktop:py-section">
+  <div v-if="sitter" class="site-container pt-1 pb-15 tablet:pt-[60px] tablet:pb-[60px] desktop:grid desktop:grid-cols-2 desktop:items-start desktop:gap-x-gutter desktop:py-section">
     <div class="grid gap-y-10 tablet:grid-cols-[3fr_2fr] tablet:items-start tablet:gap-x-gutter desktop:contents">
       <SitterGallery :photos="photos" :name="sitter.name" class="tablet:col-start-2 tablet:row-start-1" />
       <section class="sitter-summary tablet:col-start-1 tablet:row-start-1 desktop:row-end-3">
@@ -61,7 +66,7 @@ useHead({ title: computed(() => sitter.value?.name ?? '寵物保姆') })
       </section>
     </div>
 
-    <div class="mt-12 grid gap-12 tablet:mt-16 tablet:gap-16 desktop:col-start-2 desktop:row-start-2 desktop:mt-[188px] desktop:gap-section">
+    <div class="mt-12 grid gap-y-7 tablet:mt-16 tablet:gap-16 desktop:col-start-2 desktop:row-start-2 desktop:mt-[188px] desktop:gap-section">
       <section v-if="isGoodHome" class="grid gap-7 tablet:max-w-[390px] tablet:gap-8 desktop:max-w-none desktop:gap-[44px]">
         <div v-for="detail in details" :key="detail.title">
           <h2 class="text-lead font-bold">{{ detail.title }}</h2>
@@ -69,12 +74,12 @@ useHead({ title: computed(() => sitter.value?.name ?? '寵物保姆') })
         </div>
       </section>
       <SitterReviews v-if="isGoodHome" :total="sitter.reviews ?? 0" />
-      <section>
+      <section :class="{ 'max-tablet:mt-5': isGoodHome }">
         <h2 class="text-subheading font-bold">
           其他 <NuxtLink :to="{ path: '/services', query: { city: sitter.city } }" class="text-action underline">{{ sitter.city }}</NuxtLink>{{ ' ' }}
           <NuxtLink to="/services" class="text-action underline">寄宿</NuxtLink> 的寵物保姆
         </h2>
-        <ul v-reveal class="mt-5 grid grid-cols-2 gap-4 tablet:grid-cols-3 tablet:gap-x-gutter desktop:gap-2">
+        <ul v-reveal class="mt-5 grid grid-cols-2 gap-x-[15px] gap-y-3 max-tablet:[&_article]:min-h-[297px] tablet:grid-cols-3 tablet:gap-4 tablet:gap-x-gutter desktop:gap-2">
           <li v-for="item in related" :key="item.id">
             <SitterCard :sitter="item" compact class="h-full" />
           </li>
